@@ -2,8 +2,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hngx_openai/hngx_openai.dart';
 
 void main() {
-  test('Returns HELLO in lower case', () {
+  test(
+      'This is to test that we\'re getting back null value since we don\'t have endpoint ',
+      () async {
     final openAI = OpenAI();
-    expect(openAI.sample("HELLO"), 'hello');
+    expect(await openAI.queryResponse, null);
   });
 }

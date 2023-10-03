@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hngx_openai/repository/openai_repository.dart';
 
 import 'package:hngx_openai/gpt/gpt.dart';
 import 'package:hngx_openai/service/openai_service.dart';
@@ -71,7 +72,6 @@ class MockClient extends Mock implements http.Client {
 void main() {
   group('ModelsList Extension', () {
     late http.Client mockClient;
-   
 
     setUp(() {
       mockClient = MockClient();
@@ -99,6 +99,14 @@ void main() {
       final model = await completions;
 
       expect(model, isNull);
+    });
+
+    test("Checking if we're getting response from the server", () async {
+      const String userInput = "What is today's date";
+      const String cookie = "session=487d97a5-3e43-4502-80d4-9315c3d7bf77.24ZfCu95q06BqVuCUFWuJJoLAgM";
+
+      final response = await OpenAIRepository().getChat(userInput, cookie);
+      expect(response.isNotEmpty, true);
     });
   });
 }

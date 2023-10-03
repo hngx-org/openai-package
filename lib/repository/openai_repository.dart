@@ -6,7 +6,10 @@ class OpenAIRepository implements OpenAI {
   /// Send Chat Request as String to the server
   /// Either Returns either [message] or [error] within OpenAIModel object returned
   @override
-  Future<String> getChat(String userInput, String cookie) async {
+  Future<String> getChat(
+    String userInput,
+    String cookie,
+  ) async {
     final result = await openAiService.chat(
       userInput: userInput,
       cookie: cookie,
@@ -23,7 +26,10 @@ class OpenAIRepository implements OpenAI {
   /// Either Returns either [message] or [error] within OpenAIModel object returned
   @override
   Future<String> getChatCompletions(
-      List<String> history, String userInput, String cookie) async {
+    List<String> history,
+    String userInput,
+    String cookie,
+  ) async {
     final result = await openAiService.chatCompletions(
       history: history,
       userInput: userInput,

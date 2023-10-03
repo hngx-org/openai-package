@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 class SpitFireOpenAI {
   /// Returns [name] to lowercase.
-  String get apiName => "Completions API";
+  String get apiName => "Spit Fire OpenAI API";
 
   Future<String?> sendPrompt(
       {required List<String> history, required String userInput}) async {

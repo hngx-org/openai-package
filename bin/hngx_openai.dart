@@ -13,15 +13,18 @@ class OpenAI {
     final result = await OpenAIService().chat(userInput, token);
 
     if (result != null) {
-      log(result.message);
-      return result.message;
+      if (result.error.isEmpty) {
+        return result.message;
+      } else {
+        return result.error;
+      }
     } else {
-      return "";
+      return "Unknown Error Occured";
     }
   }
 }
 
 void main() async {
   final response = await OpenAI().getChatResponse();
-  print(response);
+  log("Response: $response");
 }

@@ -1,15 +1,11 @@
 class OpenAIModel {
-  final String model;
-  final String response;
+  final String message;
 
-  OpenAIModel({required this.model, required this.response});
+  OpenAIModel({required this.message});
 
-  OpenAIModel.fromJson(Map<String, dynamic> json)
-      : model = json['model'],
-        response = json['response'];
+  OpenAIModel.fromJson(Map<String, dynamic> json) : message = json["message"];
 
   Map<String, dynamic> toJson() => {
-        'model': model,
-        'response': response,
+        'message': message,
       };
 }

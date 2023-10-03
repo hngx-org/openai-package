@@ -5,19 +5,23 @@ import 'package:hngx_openai/models/openai_model.dart';
 import 'package:http/http.dart';
 
 class OpenAIService {
-  String endpoint = "";
+  String endpoint = "https://spitfire-interractions.onrender.com/api/chat/";
 
   // Will Return response from OpenAI
-  Future<OpenAIModel?> sendQuery(String query, String token) async {
+  Future<OpenAIModel?> chat(String userInput, String token) async {
     // Prepare the header of the request to be sent.
     Map<String, String> headers = {
       "Content-Type": "application/json",
-      "Authorization": "Bearer $token",
+      "Authorization": token,
     };
 
     // Prepare the query to be sent.
     // This will change depending on the endpoint supplied
-    var body = jsonEncode({'message': query});
+    var body = jsonEncode(
+      <String, String>{
+        "user_input": userInput,
+      },
+    );
 
     // Now send the query to the server
     try {
@@ -27,14 +31,15 @@ class OpenAIService {
         body: body,
       );
 
-      // Check if we our request was successful and get the response
-      if (result.statusCode == 201) {
-        final data = jsonDecode(result.body);
+      log(result.body);
 
-        return OpenAIModel.fromJson(data);
-      }
+      // Check if we our request was successful and get the response
+      final feedback = jsonDecode(result.body);
+
+      log(feedback);
+      return OpenAIModel(message: feedback["message"]);
     } catch (error) {
-      log("Error occurred while sending query: ${error.toString}");
+      log("Error occurred while sending query: ${error.toString()}");
     }
     return null;
   }

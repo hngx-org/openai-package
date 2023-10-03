@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
 
-
 import 'package:hngx_openai/gpt/gpt.dart';
 import 'package:hngx_openai/service/openai_service.dart';
 import 'package:mockito/mockito.dart';
@@ -72,17 +71,16 @@ class MockClient extends Mock implements http.Client {
 void main() {
   group('ModelsList Extension', () {
     late http.Client mockClient;
-    String? apiKey = env['OPENAI_API_KEY'];
+   
 
     setUp(() {
       mockClient = MockClient();
     });
 
     test('retrieveModel handles error response', () async {
-        const String userInput = "What is today's date";
-  const String cookie =
-      "session=487d97a5-3e43-4502-80d4-9315c3d7bf77.24ZfCu95q06BqVuCUFWuJJoLAgM";
-      final completions = OpenAIService().chat(cookie:cookie , userInput: userInput);
+      const String userInput = "What is today's date";
+      const String cookie = "session=487d97a5-3e43-4502-80d4-9315c3d7bf77.24ZfCu95q06BqVuCUFWuJJoLAgM";
+      final completions = OpenAIService().chat(cookie: cookie, userInput: userInput);
       const modelId = 'model1';
 
       // Mock the HTTP response to simulate an error

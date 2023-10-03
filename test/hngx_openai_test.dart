@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hngx_openai/completions_lib/completions.dart';
-import 'package:hngx_openai/completions_lib/models/ai_models_model.dart';
+
+
 import 'package:hngx_openai/gpt/gpt.dart';
 import 'package:hngx_openai/service/openai_service.dart';
 import 'package:mockito/mockito.dart';
@@ -79,7 +79,10 @@ void main() {
     });
 
     test('retrieveModel handles error response', () async {
-      final completions = OpenAIService().chat("who are you", apiKey!);
+        const String userInput = "What is today's date";
+  const String cookie =
+      "session=487d97a5-3e43-4502-80d4-9315c3d7bf77.24ZfCu95q06BqVuCUFWuJJoLAgM";
+      final completions = OpenAIService().chat(cookie:cookie , userInput: userInput);
       const modelId = 'model1';
 
       // Mock the HTTP response to simulate an error

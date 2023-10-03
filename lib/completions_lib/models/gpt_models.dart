@@ -45,7 +45,7 @@ extension ModelsList on Completions {
       "Authorization": "Bearer $apiKey",
       "Content-Type": "application/json",
     };
-
+//
     try {
       var response = await client.get(
           Uri.parse("$baseUrlcompletions/models/$modelId"),

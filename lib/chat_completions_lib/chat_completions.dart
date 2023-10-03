@@ -11,14 +11,17 @@ import 'models/chat_completion_model.dart';
 // part 'gpt_models.dart';
 
 class ChatCompletions {
-  /// List maintained to store currently running conversation(responses and replies)
+  static List<Map<String, String>> messages = [
+    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "user", "content": "Hello!"}
+  ];
 
-  List<Map<String, String>> getConversationArray() {
-    List<Map<String, String>> messages = [
-      {"role": "system", "content": "You are a helpful assistant."},
-      {"role": "user", "content": "Hello!"}
-    ];
-    return messages;
+  /// List maintained to store currently running conversation(responses and replies)
+  static List<Map<String, String>> get getConversationArray => messages;
+
+  /// Update array with new responses
+  void updateConversationArray(List<Map<String, String>> newMessage) {
+    messages.addAll(newMessage);
   }
 
   /// Returns [name] to lowercase.
@@ -34,7 +37,7 @@ class ChatCompletions {
 
     Map<String, dynamic> body = {
       "model": model,
-      "messages": getConversationArray()
+      "messages": ChatCompletions.messages
     };
 
     try {
@@ -49,9 +52,22 @@ class ChatCompletions {
         throw HttpException(jsonResponse['error']['message']);
       }
 
-      List modelSnapshot = jsonResponse['choices'];
+      // List modelSnapshot = jsonResponse['choices'];
 
-      if (modelSnapshot.isNotEmpty) {}
+      // if (modelSnapshot.isNotEmpty) {}
+      List<Map<String, String>> newMessage = [
+        {
+          "role": "user",
+          "content": prompt,
+        },
+        {
+          "role": "system",
+          "content": jsonResponse['choices'][0]['message']['content'],
+        }
+      ];
+
+      /// update conversation array
+      ChatCompletions().updateConversationArray(newMessage);
 
       return ChatCompletionModel(
           choicesList: jsonResponse['choices'],

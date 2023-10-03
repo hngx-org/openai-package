@@ -32,4 +32,8 @@ void main() async {
       model: "gpt-3.5-turbo-0613", prompt: "Say this is a text");
 
   if (reply != null) print(reply.aiResponse);
+
+  /// communicate with chat models
+  ChatCompletionModel? res =
+      await chatCompletions.sendUserQuery(prompt: "hello!");
 }

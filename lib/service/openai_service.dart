@@ -12,7 +12,7 @@ class OpenAIService {
     required String cookie,
   }) async {
     // Endpoint for the chat API
-    String endpoint = "https://spitfire-interractions.onrender.com/api/chat";
+    String endpoint = "https://spitfire-interractions.onrender.com/api/chat/";
     var client = Client();
 
     // Prepare the header of the request to be sent.

@@ -144,6 +144,6 @@ class _MyHomePageState extends State<MyHomePage> {
 Clicking the floating action button will display the response on the app; be it error or message.
 
 ## Authors
-- Farouk Bello
-- Papa Kofi Boahen
-- eokdev
+- [Farouk Bello](https://github.com/maverick0x)
+- [Papa Kofi Boahen](https://github.com/Boahen123)
+- [Emmanuel Olorunshola](https://github.com/eokdev)

@@ -12,7 +12,6 @@ void main() async {
   // For getting chat
   // final aiResponse = await OpenAIRepository().getChat(userInput, cookie);
   // For chat completions
-  final aiResponseC =
-      await OpenAIRepository().getChatCompletions([], userInput, cookie);
+  final aiResponseC = await OpenAIRepository().getChat(userInput, cookie);
   log(aiResponseC);
 }

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:hngx_openai/models/openai_model.dart';
 import 'package:http/http.dart';
@@ -11,48 +10,40 @@ class OpenAIService {
     required String userInput,
     required String cookie,
   }) async {
-    // Endpoint for the chat API
     String endpoint = "https://spitfire-interractions.onrender.com/api/chat/";
     var client = Client();
 
-    // Prepare the header of the request to be sent.
     Map<String, String> headers = {
       "accept": "application/json",
-      "Content-Type": "application/json; charset=UTF-8",
+      "Content-Type": "application/json",
       "Cookie": cookie,
     };
 
-    // Prepare the query to be sent.
-    // This will change depending on the endpoint supplied
-    var body = jsonEncode(
-      <String, String>{
-        "user_input": userInput,
-      },
-    );
+    Map<String, dynamic> body = {
+      "user_input": userInput,
+    };
 
     try {
-      final result = await client.post(
+      var response = await client.post(
         Uri.parse(endpoint),
         headers: headers,
-        body: body,
+        body: jsonEncode(body),
       );
 
-      log("Body of the response:\n${result.body}");
+      // log("Body of the response:\n${response.body}");
 
-      if (result.statusCode == 201) {
-        final feedback = jsonDecode(result.body);
+      if (response.statusCode == 201) {
+        final feedback = jsonDecode(response.body);
 
         return OpenAIModel.fromJson(feedback);
       } else {
-        final feedback = jsonDecode(result.body);
+        final feedback = jsonDecode(response.body);
 
         return OpenAIModel(error: feedback['error'], message: "");
       }
-    } catch (err) {
-      log(err.toString());
-      return OpenAIModel(error: err.toString(), message: "");
-    } finally {
-      client.close();
+    } catch (error) {
+      // log(error.toString());
+      return OpenAIModel(error: error.toString(), message: "");
     }
   }
 
@@ -66,9 +57,10 @@ class OpenAIService {
     String endpoint =
         "https://spitfire-interractions.onrender.com/api/chat/completions";
     var client = Client();
+
     Map<String, String> headers = {
       "accept": "application/json",
-      "Content-Type": "application/json; charset=UTF-8",
+      "Content-Type": "application/json",
       "Cookie": cookie,
     };
 
@@ -84,7 +76,7 @@ class OpenAIService {
         body: jsonEncode(body),
       );
 
-      log("Body of the response:\n${response.body}");
+      // log("Body of the response:\n${response.body}");
 
       if (response.statusCode == 201) {
         final feedback = jsonDecode(response.body);
@@ -96,10 +88,8 @@ class OpenAIService {
         return OpenAIModel(error: feedback['error'], message: "");
       }
     } catch (error) {
-      log(error.toString());
+      // log(error.toString());
       return OpenAIModel(error: error.toString(), message: "");
-    } finally {
-      client.close();
     }
   }
 }

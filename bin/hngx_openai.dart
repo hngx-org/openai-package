@@ -7,12 +7,12 @@ import 'package:hngx_openai/repository/openai_repository.dart';
 void main() async {
   const String userInput = "What is today's date";
   const String cookie =
-      "session=487d97a5-3e43-4502-80d4-9315c3d7bf77.24ZfCu95q06BqVuCUFWuJJoLAgM";
+      "session=d6ab1702-050f-4fc1-89e3-8e5e6ab85bec.MlfGY9pUNM0BI-4gd9CpZtvWynQ";
 
   // For getting chat
-  final aiResponse = await OpenAIRepository().getChat(userInput, cookie);
+  // final aiResponse = await OpenAIRepository().getChat(userInput, cookie);
   // For chat completions
   final aiResponseC =
       await OpenAIRepository().getChatCompletions([], userInput, cookie);
-  log("$aiResponse\n$aiResponseC");
+  log(aiResponseC);
 }

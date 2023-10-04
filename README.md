@@ -8,7 +8,7 @@ Inside of your pubspec.yaml add these lines under your dependencies.
 hngx_openai:
     git:
       url: https://github.com/hngx-org/openai-package.git
-      ref: 99e16e0
+      ref: main
 ````
 
 ## Importing the package within your project

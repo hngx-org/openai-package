@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:hngx_openai/models/openai_model.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 
 class OpenAIService {
   /// Send Chat Request as String to the server
@@ -11,7 +11,6 @@ class OpenAIService {
     required String cookie,
   }) async {
     String endpoint = "https://spitfire-interractions.onrender.com/api/chat/";
-    var client = Client();
 
     Map<String, String> headers = {
       "accept": "application/json",
@@ -24,20 +23,20 @@ class OpenAIService {
     };
 
     try {
-      var response = await client.post(
-        Uri.parse(endpoint),
-        headers: headers,
-        body: jsonEncode(body),
-      );
+      var request = http.Request('POST', Uri.parse(endpoint));
+      request.body = json.encode(body);
+      request.headers.addAll(headers);
 
-      // log("Body of the response:\n${response.body}");
+      http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 201) {
-        final feedback = jsonDecode(response.body);
+        String text = await response.stream.bytesToString();
+        final feedback = jsonDecode(text);
 
         return OpenAIModel.fromJson(feedback);
       } else {
-        final feedback = jsonDecode(response.body);
+        String text = await response.stream.bytesToString();
+        final feedback = jsonDecode(text);
 
         return OpenAIModel(error: feedback['error'], message: "");
       }
@@ -56,7 +55,6 @@ class OpenAIService {
   }) async {
     String endpoint =
         "https://spitfire-interractions.onrender.com/api/chat/completions";
-    var client = Client();
 
     Map<String, String> headers = {
       "accept": "application/json",
@@ -70,20 +68,20 @@ class OpenAIService {
     };
 
     try {
-      var response = await client.post(
-        Uri.parse(endpoint),
-        headers: headers,
-        body: jsonEncode(body),
-      );
+      var request = http.Request('POST', Uri.parse(endpoint));
+      request.body = json.encode(body);
+      request.headers.addAll(headers);
 
-      // log("Body of the response:\n${response.body}");
+      http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 201) {
-        final feedback = jsonDecode(response.body);
+        String text = await response.stream.bytesToString();
+        final feedback = jsonDecode(text);
 
         return OpenAIModel.fromJson(feedback);
       } else {
-        final feedback = jsonDecode(response.body);
+        String text = await response.stream.bytesToString();
+        final feedback = jsonDecode(text);
 
         return OpenAIModel(error: feedback['error'], message: "");
       }

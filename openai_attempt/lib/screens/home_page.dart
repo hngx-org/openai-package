@@ -1,12 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hngx_openai/repository/openai_repository.dart';
 import 'package:openai_attempt/constants/constants.dart';
-import 'package:openai_attempt/services/getChatCompletions.dart';
-import 'package:openai_attempt/widgets/alertDialog.dart';
+import 'package:openai_attempt/services/get_chat_completions.dart';
+import 'package:openai_attempt/widgets/alert_dialog.dart';
 
 final loadingState = StateProvider<bool>((ref) => false);
 
@@ -30,7 +27,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    
     ref.listen(chatCompletionResponse, (previous, next) {
       if (next!.status == "Success") {
         chatController.text = "";
@@ -134,8 +130,10 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                         onTap: () {
                           if (chatController.text.isNotEmpty) {
                             ref.read(loadingState.notifier).state = true;
-                            final data =
-                                GetChatCompletionDataModel(history: ["history"], userInput: chatController.text, cookies: ConstantDatas.cookie);
+                            final data = GetChatCompletionDataModel(
+                                history: ["history"],
+                                userInput: chatController.text,
+                                cookies: ConstantDatas.cookie);
                             ref.read(chatCompletion(data));
                           }
                         },
@@ -149,7 +147,10 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                               ? const Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    SizedBox(height: 25, width: 25, child: CircularProgressIndicator()),
+                                    SizedBox(
+                                        height: 25,
+                                        width: 25,
+                                        child: CircularProgressIndicator()),
                                   ],
                                 )
                               : const Icon(

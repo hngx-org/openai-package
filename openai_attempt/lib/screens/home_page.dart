@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:openai_attempt/constants/constants.dart';
 import 'package:openai_attempt/services/get_chat_completions.dart';
@@ -62,7 +63,16 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
             children: <Widget>[
               //Ai Response here
               message.isEmpty
-                  ? Container()
+                  ? Column(
+                      children: [
+                        SizedBox.expand(
+                          child: SvgPicture.asset("images/bg_image.svg"),
+                        ),
+                        const SizedBox(
+                          height: 200.0,
+                        )
+                      ],
+                    )
                   : Expanded(
                       child: SingleChildScrollView(
                         child: Container(

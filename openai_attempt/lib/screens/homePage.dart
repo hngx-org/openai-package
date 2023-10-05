@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hngx_openai/repository/openai_repository.dart';
 import 'package:openai_attempt/constants/constants.dart';
+import 'package:openai_attempt/services/getChatCompletions.dart';
+import 'package:openai_attempt/widgets/alertDialog.dart';
 
 final loadingState = StateProvider<bool>((ref) => false);
 
@@ -19,6 +21,7 @@ class MyHomePage extends ConsumerStatefulWidget {
 
 class _MyHomePageState extends ConsumerState<MyHomePage> {
   final chatController = TextEditingController();
+  String message = "";
   @override
   void dispose() {
     chatController.dispose();
@@ -27,6 +30,19 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    
+    ref.listen(chatCompletionResponse, (previous, next) {
+      if (next!.status == "Success") {
+        chatController.text = "";
+        setState(() {
+          message = next.message ?? "";
+        });
+        ref.read(loadingState.notifier).state = false;
+      } else {
+        ref.read(loadingState.notifier).state = false;
+        errResponseDialog(context: context, errMessage: next.message);
+      }
+    });
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -49,34 +65,36 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               //Ai Response here
-              Expanded( 
-                child: SingleChildScrollView(
-                  child: Container(
-                    width: double.infinity,
-                    margin: const EdgeInsets.only(
-                      top: 15,
-                      right: 15,
-                      left: 15,
-                      bottom: 15,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(
-                        10,
+              message.isEmpty
+                  ? Container()
+                  : Expanded(
+                      child: SingleChildScrollView(
+                        child: Container(
+                          width: double.infinity,
+                          margin: const EdgeInsets.only(
+                            top: 15,
+                            right: 15,
+                            left: 15,
+                            bottom: 15,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              10,
+                            ),
+                            color: Theme.of(context).colorScheme.inversePrimary,
+                          ),
+                          child: Text(
+                            message,
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
                       ),
-                      color: Theme.of(context).colorScheme.inversePrimary,
                     ),
-                    child: Text(
-                      "Ai response comes here",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
@@ -112,15 +130,32 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                           ),
                         ),
                       ),
-                      Container(
-                        height: 56,
-                        width: MediaQuery.of(context).size.width * 0.16,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: const Icon(
-                          Icons.send_sharp,
-                          color: Colors.black,
+                      GestureDetector(
+                        onTap: () {
+                          if (chatController.text.isNotEmpty) {
+                            ref.read(loadingState.notifier).state = true;
+                            final data =
+                                GetChatCompletionDataModel(history: ["history"], userInput: chatController.text, cookies: ConstantDatas.cookie);
+                            ref.read(chatCompletion(data));
+                          }
+                        },
+                        child: Container(
+                          height: 56,
+                          width: MediaQuery.of(context).size.width * 0.16,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: ref.watch(loadingState)
+                              ? const Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(height: 25, width: 25, child: CircularProgressIndicator()),
+                                  ],
+                                )
+                              : const Icon(
+                                  Icons.send_sharp,
+                                  color: Colors.black,
+                                ),
                         ),
                       )
                     ],
@@ -133,6 +168,4 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       ),
     );
   }
-
-
 }

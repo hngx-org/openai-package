@@ -58,8 +58,9 @@ void main() async {
   // if (spitResponse != null) print(spitResponse);
 
   /// Using Spit Fire's GPT API
-  // String? spitFireResponse =
-  //     await spitFireGPT.sendPrompt(userInput: "what are cookies");
+  ///
+  String? spitFireResponse =
+      await spitFireGPT.sendPrompt(userInput: "what are cookies");
 
   // if (spitFireResponse != null) print(spitFireResponse);
 

@@ -1,6 +1,6 @@
 name: hngx_openai
-description: A new Flutter package project.
-version: 0.0.1
+description: OpenAI package for HNG.
+version: 1.0.0
 homepage:
 
 environment:
@@ -10,10 +10,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_riverpod: ^2.4.2
   http: ^1.1.0
   flutter_dotenv: ^5.1.0
   dotenv: ^4.1.0
+  mockito: ^5.4.2
+
 
 dev_dependencies:
   flutter_test:
@@ -23,8 +24,7 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   # To add assets to your package, add an assets section, like this:
-  assets:
-    - .env
+  # assets:
   #   - images/a_dot_ham.jpeg
   #
   # For details regarding assets in packages, see

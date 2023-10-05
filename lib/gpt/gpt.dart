@@ -14,4 +14,6 @@ String? baseUrlcompletions = env['OPENAI_BASE_URL'];
 class GPT {
   /// Returns [name] of this model.
   String get apiName => "GPT API";
+
 }
+

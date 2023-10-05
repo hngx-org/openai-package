@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 class SpitFireGPT {
@@ -38,7 +39,7 @@ class SpitFireGPT {
 
       return modelSnapshot;
     } catch (error) {
-      print('$error');
+      debugPrint('$error');
       String? modelSnapshot = jsonResponse['message'];
       return modelSnapshot;
     } finally {

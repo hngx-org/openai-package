@@ -14,25 +14,28 @@ class ChatCompletionServices {
       if (aiResponseC.startsWith("M")) {
         return ResModel(
           status: "Success",
-          errMessage: null,
+          message: aiResponseC,
         );
       } else {
         return ResModel(
           status: "Failed",
-          errMessage: aiResponseC,
+          message: aiResponseC,
         );
       }
     } catch (e) {
-      return ResModel(status: "failed", errMessage: "An error occured");
+      return ResModel(
+        status: "Failed",
+        message: "An error occured",
+      );
     }
   }
 }
 
 class ResModel {
   final String? status;
-  final String? errMessage;
+  final String? message;
 
-  ResModel({this.status, this.errMessage});
+  ResModel({this.status, this.message});
 }
 
 final chatCompletionProvider = Provider<ChatCompletionServices>((ref) => ChatCompletionServices(ref));
@@ -54,5 +57,9 @@ class GetChatCompletionDataModel {
   final String? userInput;
   final String? cookies;
 
-  GetChatCompletionDataModel({required this.history, required this.userInput, required this.cookies});
+  GetChatCompletionDataModel({
+    required this.history,
+    required this.userInput,
+    required this.cookies,
+  });
 }

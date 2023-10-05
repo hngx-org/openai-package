@@ -1,13 +1,10 @@
 import 'package:hngx_openai/service/openai_service.dart';
 
-/// This class implemnts [OpenAI] which provides the functions that will be exposed to
-/// developers using the package.
-///
 /// This class serves as the entity that connects our services with data model together
 /// while ensuring the developers doesn't concern themselves with the underlying dynmaics
 /// of the request and response.
 ///
-/// They simply instantiate the class; then use the object to interact with OpenAI without
+/// Devs simply instantiate the class; then use the object to interact with OpenAI without
 /// worrying about any form of exception. To use the methods exposed by this class the
 /// developer will need to extract cookie details after authentication then use that to
 /// authorize the request.

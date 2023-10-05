@@ -5,14 +5,17 @@
 // import 'package:hngx_openai/completions_lib/models/message_model.dart';
 // import 'package:hngx_openai/gpt/gpt.dart';
 // import 'package:hngx_openai/spit-fire-apis/chat.dart';
-import 'package:hngx_openai/spit-fire-apis/gpt_turbo.dart';
+// import 'package:hngx_openai/spit-fire-apis/gpt_turbo.dart';
+
+import 'package:hngx_openai/repository/openai_repository.dart';
 
 void main() async {
   // GPT gpt = GPT();
   // Completions completions = Completions();
   // ChatCompletions chatCompletions = ChatCompletions();
   // SpitFireOpenAI spitFire = SpitFireOpenAI();
-  SpitFireGPT spitFireGPT = SpitFireGPT();
+  // SpitFireGPT spitFireGPT = SpitFireGPT();
+  OpenAIRepository openai = OpenAIRepository();
 
   /// names of models
   // print(gpt.apiName);
@@ -55,8 +58,13 @@ void main() async {
   // if (spitResponse != null) print(spitResponse);
 
   /// Using Spit Fire's GPT API
-  String? spitFireResponse =
-      await spitFireGPT.sendPrompt(userInput: "what are cookies");
+  // String? spitFireResponse =
+  //     await spitFireGPT.sendPrompt(userInput: "what are cookies");
 
-  if (spitFireResponse != null) print(spitFireResponse);
+  // if (spitFireResponse != null) print(spitFireResponse);
+
+  /// Using OpenAI Repository
+  String openResponse = await openai.getChat("what are cookies", "");
+
+  print(openResponse);
 }

@@ -1,9 +1,16 @@
-# HNGx OpenAI package for Stage 5.
+# HNGx OpenAI
 
-This library enables stage 5 developers to focus more on coding and care less about the underlying dynamics of connecting to openAI API.
+A simple package for interacting with openai server created by team spitfire during HNGx virtual Internship. This package reduces the amount of boilerplate codes the mobile developers need to write to implement make use of the server.
+
+## Table of Contents
+
+1. [Installing](#installing)
+2. [Import Package](#import-package)
+3. [How to use the package](#how-to-use-the-package)
+4. [Authors](#authors)
 
 ## Installing
-Inside of your pubspec.yaml add these lines under your dependencies.
+Inside of your pubspec.yaml add these lines under your **dependencies**.
 ```yaml
 hngx_openai:
     git:
@@ -11,46 +18,59 @@ hngx_openai:
       ref: main
 ````
 
-## Importing the package within your project
+Then run this in your project root folder within the terminal.
+```
+flutter pub get
+```
+
+## Import Package
+Import the package into your dart file like this:
+
 ```dart
 import 'package:hngx_openai/repository/openai_repository.dart';
 ```
 
-## Making use of the OpenAI functionalities
-1. Define your query or fetch it from textfield.
+## How to use the package
+1. Define your query like this or fetch it from the controller of your textfield/textformfield.
    ```dart
    const String userInput = "What is today's date";
+
+   // OR
+   String userInput = textController.text;
    ```
-2. Get your session string; cookie (as it is needed for carrying out operations on the package).
+2. Get your session string after logging in or signing up; cookie (it is needed for sending requests).
    ```dart
    const String cookie =
         "session=487d97a5-3e43-4502-80d4-9315c3d7bf77.24ZfCu95q06BqVuCUFWuJJoLAgM";
    ```
 3. Instantiate the OpenAIRepository
+   It is recommended the developer make use of singleton of ```OpenAIRepository``` in projects.
+   
    ```dart
    OpenAIRepository openAI = OpenAIRepository();
    ```
-4. Make of the **getChat()** function; by passing userInput and cookie as argument.
+4. Send chat requests to the server.
+   - You can send a standalone chat request with ```getChat()```. This method takes in the ```userInput``` and the ```cookie``` object as arguments. Then returns String with the prefix ```Error:``` if there is an error while communicating with the server or a String with the prefix ```Message:``` if the communication was successful.
+   
    ```dart
    final response = await openAI.getChat(userInput, cookie);
    ```
 
-   Or the getChatCompletions which takes list of Strings; history as an additional parameter.
+   - Then developers can make use of the ```getChatCompletions()``` to continue previous conversations which takes in ```history```; a list of Strings of previous conversations, as an additional parameter to the ```getChat()```. This also returns String with the prefix ```Error:``` if there is an error while communicating with the server or a String with the prefix ```Message:``` if the communication was successful.
    
    ```dart
-   history = ["What is my name", "How are you today?"];
+   history = ["user: Hello!","AI: Hi! How can I help you today?","user: I'm looking for information on the latest trends in artificial intelligence.","AI: Sure, here are some of the latest trends in artificial intelligence"];
    final response = await openAI.getChatCompletions(history userInput, cookie);
    ```
-    
-   This returns a String with prefix "Message" and the content if the operation was successful. Or it returns a String with prefix "Error" and the error message if there's any error.
-6. Finally display the error on the app.
+
+5. Display the response wherever they're needed.
    ```dart
    setState(() {
-      _counter = aiResponse;
+      _counter = response;
     });
    ```
    
-- We are returning the String with "Message" or "Error" prefix because we want the developer to use this to filter for when to display the response or display a popup on the app stating the error.
+**NOTE:** We are returning the String with "Message" or "Error" prefix because we want the developer to use this to filter for when to display the response or display a popup on the app stating the error. Also because we are removing all request related concerns for developer. This way they can just call the method and get back the string they needed.
 
 ## Full Example
 ```dart
@@ -106,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
         await openAI.getChatCompletions(history, userInput, cookie);
 
     setState(() {
-      _counter = aiResponse;
+      _counter = response;
     });
   }
 

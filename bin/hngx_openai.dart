@@ -5,9 +5,9 @@ import 'dart:developer';
 import 'package:hngx_openai/repository/openai_repository.dart';
 
 void main() async {
-  const String userInput = "What is today's date";
+  const String userInput = "What month are we in???";
   const String cookie =
-      "session=8b611d1b-d438-4755-90e8-d3ff0610baa1.AL8Tvg99Y7hbKMnHkiYKqA8-kso";
+      "session=75538020-037c-4981-bf17-64e6577885b8.-719DFgx15BEG2ogr-NrYC6UiAA";
 
   // For getting chat
   // final aiResponse = await OpenAIRepository().getChat(userInput, cookie);

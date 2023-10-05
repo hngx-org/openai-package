@@ -38,7 +38,8 @@ class OpenAIService {
         String text = await response.stream.bytesToString();
         final feedback = jsonDecode(text);
 
-        return OpenAIModel(error: feedback['error'], message: "");
+        return OpenAIModel(
+            error: feedback['error'] ?? feedback['content'], message: "");
       }
     } catch (error) {
       // log(error.toString());
@@ -83,7 +84,8 @@ class OpenAIService {
         String text = await response.stream.bytesToString();
         final feedback = jsonDecode(text);
 
-        return OpenAIModel(error: feedback['error'], message: "");
+        return OpenAIModel(
+            error: feedback['error'] ?? feedback['content'], message: "");
       }
     } catch (error) {
       // log(error.toString());

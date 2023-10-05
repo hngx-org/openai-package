@@ -1,4 +1,4 @@
-/// The class created for storing the response from spitfire's backend; The server made
+/// The class created for holding the response from spitfire's backend; The server made
 /// for connecting to OpenAI API. This class serves as a model for holding the
 /// information returned from the backend. Whether it's an error or it's a message
 /// responding to a particular query.

@@ -59,7 +59,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                     children: [
                       CircleAvatar(
                         radius: 15,
-                        backgroundImage: AssetImage("images/passport.jpg"),
+                        backgroundImage: AssetImage("images/farouk.jpeg"),
                       ),
                     ],
                   ),
@@ -69,7 +69,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                       children: [
                         CircleAvatar(
                           radius: 15,
-                          backgroundImage: AssetImage("images/farouk.jpeg"),
+                          backgroundImage: AssetImage("images/passport.jpg"),
                         ),
                       ],
                     ),

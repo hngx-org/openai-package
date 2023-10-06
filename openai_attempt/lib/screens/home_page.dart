@@ -45,9 +45,50 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          leadingWidth: 100,
+          leading: const Padding(
+            padding: EdgeInsets.only(left: 5),
+            child: Center(
+              child: Stack(
+                children: [
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 15,
+                        backgroundImage: AssetImage("images/passport.jpg"),
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                    left: 25,
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 15,
+                          backgroundImage: AssetImage("images/farouk.jpeg"),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    left: 50,
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 15,
+                          backgroundImage: AssetImage("images/papakoffi.jpeg"),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
           title: Text(
             "Team Harpoon",
             style: GoogleFonts.poppins(
@@ -57,60 +98,59 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
             ),
           ),
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+        body: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: Stack(
             children: <Widget>[
               //Ai Response here
               message.isEmpty
-                  ? Column(
-                      children: [
-                        SizedBox.expand(
-                          child: SvgPicture.asset("images/bg_image.svg"),
-                        ),
-                        const SizedBox(
-                          height: 200.0,
-                        )
-                      ],
+                  ? Padding(
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      child: SizedBox(
+                        height: double.infinity,
+                        width: MediaQuery.of(context).size.width,
+                        child: Center(child: SvgPicture.asset("images/bg_image.svg")),
+                      ),
                     )
-                  : Expanded(
-                      child: SingleChildScrollView(
-                        child: Container(
-                          width: double.infinity,
-                          margin: const EdgeInsets.only(
-                            top: 15,
-                            right: 15,
-                            left: 15,
-                            bottom: 15,
+                  : SingleChildScrollView(
+                      child: Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.only(
+                          top: 15,
+                          right: 15,
+                          left: 15,
+                          bottom: 15,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                            10,
                           ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                              10,
-                            ),
-                            color: Theme.of(context).colorScheme.inversePrimary,
-                          ),
-                          child: Text(
-                            message,
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w400,
-                            ),
+                          color: Theme.of(context).colorScheme.inversePrimary,
+                        ),
+                        child: Text(
+                          message,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ),
                     ),
-              Align(
-                alignment: Alignment.bottomCenter,
+              Positioned(
+                bottom: 2,
                 child: Container(
                   height: 74,
                   margin: const EdgeInsets.only(
                     left: 20,
                     right: 10,
+                    bottom: 10,
                   ),
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
                         margin: const EdgeInsets.only(right: 5),
@@ -139,11 +179,10 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                       GestureDetector(
                         onTap: () {
                           if (chatController.text.isNotEmpty) {
+                            FocusScope.of(context).unfocus();
                             ref.read(loadingState.notifier).state = true;
-                            final data = GetChatCompletionDataModel(
-                                history: ["history"],
-                                userInput: chatController.text,
-                                cookies: ConstantDatas.cookie);
+                            final data =
+                                GetChatCompletionDataModel(history: ["history"], userInput: chatController.text, cookies: ConstantDatas.cookie);
                             ref.read(chatCompletion(data));
                           }
                         },
@@ -157,10 +196,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                               ? const Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    SizedBox(
-                                        height: 25,
-                                        width: 25,
-                                        child: CircularProgressIndicator()),
+                                    SizedBox(height: 25, width: 25, child: CircularProgressIndicator()),
                                   ],
                                 )
                               : const Icon(

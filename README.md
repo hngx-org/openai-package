@@ -63,6 +63,26 @@ import 'package:hngx_openai/repository/openai_repository.dart';
    final response = await openAI.getChatCompletions(history userInput, cookie);
    ```
 
+   * Developers can make use of this helper function to get the actual text from the response.
+   
+   ```dart
+    String filterText(String response) {
+       if (response.startsWith('M')) {
+           // If the return String is a Message
+           // Other definitions can come here
+           log("This is a Success Text");
+           return response.substring(8).trim();
+       } else {
+           // If the return String is an Error
+           // Other definitions can come here
+           log("This is an Error Text");
+           return response.substring(6).trim();
+      }
+    }
+   ```
+   
+   It returns the content of the response as a String object.
+
 5. Display the response wherever they're needed.
    ```dart
    setState(() {
